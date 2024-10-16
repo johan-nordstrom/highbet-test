@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import { redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 export const CreateArticle: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -14,34 +14,47 @@ export const CreateArticle: React.FC = () => {
     try {
       const response = await axios.post(
         'https://wealthy-spirit-5c2093b6cd.strapiapp.com/api/articles',
-        { title, content },
+        { data: { title, content } },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setMessage('Article created successfully!');
+      setTitle('');
+      setContent('');
     } catch (error) {
       setMessage('Failed to create article. Please try again.');
     }
   };
 
   if (!isAuthenticated) {
-    return redirect("/login")
+    return <Navigate to="/login" />;
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <textarea
-        placeholder="Content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
-      <button type="submit">Create Article</button>
+    <div>
+      <h2>Create Article</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="content">Content:</label>
+          <textarea
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Create Article</button>
+      </form>
       {message && <p>{message}</p>}
-    </form>
+    </div>
   );
 };

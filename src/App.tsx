@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Register } from './components/Register';
 import { Login } from './components/Login';
 import { CreateArticle } from './components/CreateArticle';
@@ -17,10 +17,11 @@ const App: React.FC = () => {
               <li><Link to="/create-article">Create Article</Link></li>
             </ul>
           </nav>
-
+          <Routes>
             <Route path="/register" Component={Register} />
             <Route path="/login" Component={Login} />
             <Route path="/create-article" Component={CreateArticle} />
+          </Routes>
         </div>
       </Router>
     </AuthProvider>
