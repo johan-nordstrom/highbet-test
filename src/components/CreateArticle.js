@@ -15,7 +15,7 @@ const CreateArticle = ({ token, setMessage }) => {
         {
           data: {
             title,
-            content
+            description: content
           }
         },
         {
